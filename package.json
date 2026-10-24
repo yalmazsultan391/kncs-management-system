@@ -1,0 +1,1 @@
+{"dependencies":{"next":"^14.2.33","pg":"8.12.0","react":"18.3.1","react-dom":"18.3.1"},"description":"KFUEIT Nexus Career Society (KNCS) — student society management system, ready for Vercel deployment","engines":{"node":">=18.17"},"name":"kncs-management-system","private":true,"scripts":{"build":"next build","dev":"next dev","start":"next start"},"version":"1.0.0"}
