@@ -1,0 +1,36 @@
+name: Extract zip
+on:
+  push:
+    paths:
+      - 'kncs-vercel-deploy.zip'
+      - '.github/workflows/extract.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unzip and move to root
+        run: |
+          unzip -o kncs-vercel-deploy.zip -d extracted
+          ls -la extracted
+          shopt -s dotglob
+          if [ -f extracted/package.json ]; then
+            mv extracted/* .
+          else
+            TOP=$(ls -1 extracted | head -n 1)
+            echo "Top folder: $TOP"
+            mv extracted/"$TOP"/* .
+          fi
+          rm -rf extracted kncs-vercel-deploy.zip
+          ls -la
+      - name: Commit extracted files
+        run: |
+          git config user.name "yalmazsultan391"
+          git config user.email "yalmazsultan391@users.noreply.github.com"
+          git add -A
+          git status --short
+          git commit -m "Extract KNCS app from zip" || echo "nothing to commit"
+          git push
